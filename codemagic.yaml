@@ -1,0 +1,22 @@
+workflows:
+  testing-workflow:
+    name: iOS Workflow
+    environment:
+      vars:
+        XCODE_PROJECT: "ExampleMVVM.xcodeproj"
+        XCODE_SCHEME: "ExampleMVVM"
+      xcode: latest
+      cocoapods: default
+    triggering:
+      branch_patterns:
+        - pattern: "master"
+          include: true
+          source: true
+    scripts:
+      - name: Run tests
+        script: |
+          xcode-project run-tests \
+              --project "$XCODE_PROJECT" \
+              --scheme "$XCODE_SCHEME" \
+              --device "iPhone 12"
+        test_report: build/ios/test/*.xml
